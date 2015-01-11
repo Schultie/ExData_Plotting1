@@ -1,0 +1,15 @@
+setwd("C:/Users/Asus-Martijn/Predicting/Coursera/Exploratory Data Analysis/")
+Sys.setlocale("LC_TIME", "English")
+
+data=read.table("hpc.txt",sep=";",header=T,na.strings="?")
+data$Date=as.Date(data$Date,format="%d/%m/%Y")
+new_data=subset(data,(data$Date=="2007-02-01"|data$Date=="2007-02-02"))
+rm(data)
+new_data$DateTime=strptime(paste(new_data$Date,new_data$Time),format="%Y-%m-%d %H:%M:%S")
+
+png(file="plot3.png")
+plot(new_data$DateTime,new_data$Sub_metering_1,type="l",xlab="",ylab="Energy sub metering")
+lines(new_data$DateTime,new_data$Sub_metering_2,col="red")
+lines(new_data$DateTime,new_data$Sub_metering_3,col="blue")
+legend("topright",pch=(""),lwd=1,col=c("black","red","blue"),legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"))
+dev.off()
